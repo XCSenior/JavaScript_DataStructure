@@ -89,3 +89,6 @@ console.log(compare("2.226.1","2.36"));
 module.exports = {
     compare : compare
 };
+
+
+// 错误原因,没有考虑第四位修订号的情况
