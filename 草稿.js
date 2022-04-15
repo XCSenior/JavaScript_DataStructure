@@ -32,7 +32,6 @@ const countFn = (data) => {
 			}
 		}
 	}
-	
 	return returnObject;
 }
 
