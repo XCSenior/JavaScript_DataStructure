@@ -1,7 +1,2 @@
-const str = 'IXSS'
-for (let i = 0; i < str.length; i++) {
-    const element = str[i];
-    console.log(element);
-}
-
-/* 字符串可以用for遍历 */
+let str = '001';
+console.log(str.match(/^(-)?\d+(?:\.\d{0,2})?/));
