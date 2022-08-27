@@ -9,8 +9,9 @@
 <body>
 <script>
     const formData = new FormData()
+    const arr = [new Blob(),new Blob(),new Blob()]
     for (let i = 0; i < 3; i++) {
-        formData.append('num',i)
+        formData.append('num',arr[i])
     }
 
     console.log('formData.getAll(num) :>> ', formData.getAll('num'));
