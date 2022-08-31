@@ -1,4 +1,4 @@
-const str = '0123456';
-console.log(str[7]);
+// const str = '0123456';
+// console.log(str[7]);
 
-console.log(Number('122'));
+console.log(Boolean({}));
