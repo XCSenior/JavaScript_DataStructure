@@ -1,1 +1,1 @@
-console.log(Boolean([]));
+console.log(typeof "Fnc".split(",  ")[0])
