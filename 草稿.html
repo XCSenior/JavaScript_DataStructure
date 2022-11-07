@@ -5,20 +5,30 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .p-table {
+            width: 100%;
+            height: calc(100vh - 151px);
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: stretch;
+        }
+        .p-left {
+            background-color: brown;
+            flex: 1 1 auto
+        }
+        .p-right {
+            background-color: blue;
+            flex: 4 1 auto
+        }
+    </style>
 </head>
 <body>
-<script>
-    const formData = new FormData()
-    const arr = [new Blob(),new Blob(),new Blob()]
-    for (let i = 0; i < 3; i++) {
-        formData.append('num',arr[i])
-    }
-
-    console.log('formData.getAll(num) :>> ', formData.getAll('num'));
-    /* Array(3)
-        0: "0"
-        1: "1"
-        2: "2" */
-</script>
+    <div class="p-table">
+        <div class="p-left"></div>
+        <div class="p-right"></div>
+    </div>
 </body>
 </html>
