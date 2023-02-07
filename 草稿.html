@@ -30,5 +30,24 @@
         <div class="p-left"></div>
         <div class="p-right"></div>
     </div>
+    <script>
+        (async function () {
+            async function asyncFn () {
+                const res = await new Promise((resolve, reject) => {
+                    setTimeout(function() {
+                        resolve({
+                            name: 'xiaoming',
+                            age: 18
+                        })
+                    }, 3000);
+                });
+                return res;
+            }
+
+            const res = await asyncFn();
+            console.log('res :>> ', res);
+            console.log("结束运行拉");
+        })();
+    </script>
 </body>
 </html>
