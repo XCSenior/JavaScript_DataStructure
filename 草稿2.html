@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    const stu1 = {
+        name: 'Tom',
+        age: 12,
+        school: {
+            schoolName: 'GDPU',
+            infoObj: {
+                age: 65
+            }
+        }
+    }
+    const proxyStu1 = new Proxy(stu1, {
+        get(target, propKey, receiver) { // receiver为Proxy对象本身
+            return target[propKey];
+        },
+        set(target, propKey, newValue, receiver) {
+            debugger
+            target[propKey] = newValue;
+        }
+    });
+
+    console.log('proxyStu1 :>> ', proxyStu1);
+    console.log('proxyStu1.name :>> ', proxyStu1.name);
+</script>
+</body>
+</html>
