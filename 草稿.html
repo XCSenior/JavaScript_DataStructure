@@ -6,48 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        .p-table {
-            width: 100%;
-            height: calc(100vh - 151px);
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: stretch;
-        }
-        .p-left {
-            background-color: brown;
-            flex: 1 1 auto
-        }
-        .p-right {
-            background-color: blue;
-            flex: 4 1 auto
-        }
     </style>
 </head>
 <body>
-    <div class="p-table">
-        <div class="p-left"></div>
-        <div class="p-right"></div>
-    </div>
-    <script>
-        (async function () {
-            async function asyncFn () {
-                const res = await new Promise((resolve, reject) => {
-                    setTimeout(function() {
-                        resolve({
-                            name: 'xiaoming',
-                            age: 18
-                        })
-                    }, 3000);
-                });
-                return res;
-            }
+<script>
+import moment from 'moment';
 
-            const res = await asyncFn();
-            console.log('res :>> ', res);
-            console.log("结束运行拉");
-        })();
-    </script>
+console.log('moment :>> ', moment);
+
+const nowTime = [
+    ['09:30:00', '12:00:00'],
+    ['14:30:00', '18:30:00']
+]
+
+console.log('nowTime :>> ', nowTime);
+/* 求相反时间
+    例如nowTime的相反时间为：[
+        '00:00:00 - 09:29:59',
+        '12:00:01 - 14:29:59',
+        '18:30:01 - 23:59:59'
+    ]
+*/
+
+</script>
 </body>
 </html>
