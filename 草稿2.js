@@ -1,24 +1,40 @@
-let isSso = 1
+/**
+ * @brief: 获取时间
+ * @param:  Date | 可不传
+ * @returns: {Object};
+ * @note: ;
+ * @see: ...;
+ */
+const getDate = time => {
+    const date = time || new Date();
+    const year = date.getFullYear(); // 年
+    const month = date.getMonth(); // 月
+    const day = date.getDate(); // 日
+    const hour = date.getHours(); // 时
+    const minutes = date.getMinutes(); // 分
+    const seconds = date.getSeconds(); // 秒
+    return {
+      year,
+      month,
+      day,
+      hour,
+      minutes,
+      seconds,
+    };
+};
+/**
+ * @brief: 获取年月日
+ * @param:
+ * @returns: String;
+ * @note: 2023-01-04;
+ * @see: getDate;
+ */
+const getYYMMDD = (time = new Date())=>{
+    const date = getDate(time);
+    const year = `${date.year}`.padStart(4, '0');
+    const month = `${date.month + 1}`.padStart(2, '0');
+    const day = `${date.day}`.padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
 
-
-const url = window.location.href
-    const text = url.split('?')[1] || ''
-    const purpose = getQueryValue('purpose', text)
-    const code = getQueryValue('code', text)
-    const extSystemCode = getQueryValue('extSystem_code', text)
-    if (purpose && code && extSystemCode && isSso === 1) {
-      isSso++
-      // 缓存控制页面隐形的标识，其他跳转过来需要隐藏顶部和左边菜单
-      sessionStorage.setItem('isIframePage', false)
-      // let data = { extSystem_code: extSystemCode, code: code }
-      result = await axios
-        .get('/api-uaa/tokens/getByIdentifier?code=' + code)
-          if (result.data.resp_code === 0) {
-            sessionStorage.setItem('token', result.data.datas.access_token)
-            req.headers['Authorization'] = 'Bearer ' + result.data.datas.access_token
-            location.href = '#/' + purpose
-          }
-          return req
-    }
-    // token的获取
-    console.log(sessionStorage)
+console.log('getYYMMDD() :>> ', getYYMMDD());
