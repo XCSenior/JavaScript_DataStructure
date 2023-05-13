@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>获取浏览器主机IP地址、城市位置和城市代码</title>
+    </head>
+    <body>
+        <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+        <script>
+            /*   * cip:IP地址    * cid:城市代码    * cname:城市位置    */
+            var returnCitySN = {
+                cip: "120.123.238.130",
+                cid: "320500",
+                cname: "江苏省苏州市",
+            };
+            document.write(returnCitySN["cip"] + "," + returnCitySN["cname"]);
+        </script>
+    </body>
+</html>
