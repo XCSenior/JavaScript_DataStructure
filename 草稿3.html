@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>获取当前位置信息</title>
+</head>
+<body>
+    <div id="app">
+        <div class="loc-box">
+            <div class="loc-box_text"><h2>当前位置:</h2></div>
+            <div class="loc-box_content"><h1> <span id="loc_province"></span> -- <span id="loc_city"></span> </h1></div>
+        </div>
+    </div>
+    <!-- 按照文档的描述, 可以静默获取当前位置信息 -->
+    <script src="http://api.map.baidu.com/api?v=1.4" type="text/javascript"></script>
+    <!-- <script type="text/javascript" src="./js/libs/jquery.min.js"></script> -->
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script type="text/javascript">
+        function getLoc() {
+            return new Promise(function(resolve, reject) {
+                // 首先需要设置默认的城市
+                let defCity = {
+                    id: "00001",
+                    name: "北京市",
+                    date: new Date().getTime()
+                }
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                        // 获取维度
+                        let lat = position.coords.latitude;
+                        // 获取经度
+                        let lon = position.coords.longitude;
+                        // 通过经纬度创建百度创建坐标点, 需要依赖百度地图的API
+                        let point = new BMap.Point(lon, lat);
+                        // 创建百度地理绘制器, 以通过坐标点获取对应的地理信息
+                        let gc = new BMap.Geocoder();
+                        gc.getLocation(point, function(rs) {
+                            let addComp = rs.addressComponents;
+                            console.log(rs);
+                            let curCity = {
+                                id: "",
+                                province: addComp.province,
+                                city: addComp.city,
+                                date: new Date().getTime()
+                            }
+                            resolve(curCity);
+                        })
+                    }, function(error) {
+                        console.log(error);
+                        switch(error.code) {
+                            case 1:
+                                alert("位置服务被拒绝");
+                                reject("位置服务被拒绝");
+                                break;
+                            case 2:
+                                alert("暂时获取不到位置信息")
+                                reject("暂时获取不到位置信息")
+                                break;
+                            case 3:
+                                alert("获取位置信息超时");
+                                reject("获取位置信息超时")
+                                break;
+                            default:
+                                alert("未知错误");
+                                reject("未知错误")
+                                break;
+                        }
+                    }, {
+                        timeout: 5000,
+                        enableHighAccuracy: true
+                    })
+                } else {
+                    console.log("您当前的浏览器不支持获取地址位置");
+                    reject("您当前的浏览器不支持获取地址位置")
+                }
+            })
+
+        }
+        getLoc().then(function(curCity) {
+            $("#loc_province").html(curCity.province)
+            $("#loc_city").html(curCity.city)
+        }).catch(err => {
+            console.log(err);
+        });
+    </script>
+</body>
+</html>
