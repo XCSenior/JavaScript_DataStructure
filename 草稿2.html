@@ -5,8 +5,43 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .father {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            position: relative;
+            z-index: 0;
+        }
+        .child {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .child:nth-child(1) {
+            background-color: rgba(0, 0, 255, 0.2);
+            z-index: 1;
+        }
+        .child:nth-child(2) {
+            background-color: rgba(0, 255, 0, 0.2);
+            z-index: 2;
+        }
+    </style>
 </head>
 <body>
+
+<div class="father">
+    <div class="child">
+        你好孩子1
+    </div>
+    <div class="child">
+        孩子2
+    </div>
+</div>
+
+
 <script>
     const stu1 = {
         name: 'Tom',
