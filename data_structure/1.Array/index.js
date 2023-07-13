@@ -60,17 +60,26 @@ console.log('arr4.toSorted() === arr4 :>> ', arr4.toSorted((a, b) => {
 /**
  ** 5、数组迭代（遍历方法）
  */
-// （1）every 和 some  做结果检验
-const result1 = arr4.every(item => item > 0); true
-// （2）
-// （3）
-// （4）
-// （5）
+// （1）every 和 some  做条件检验，every则是所有元素都满足，some则是满足一个即可true
+arr4.every(item => item > 0); // true
+arr4.some(item => item === 49); // true
+// （2）filter 过滤出来满足条件元素的浅拷贝数组
+arr4.filter(item => item > 20);
+// （3）map创建一个新数组，这个新数组由原数组中的每个元素都调用一次提供的函数后的返回值组成。
+arr4.map(item => item *2);
+// （4）forEach简单遍历，不改变原数组的值（对象除外）
+const objArr = [
+    { a: 1, b: 2 },
+    { a: 1, b: 2 },
+    { a: 1, b: 2 },
+]
+objArr.forEach(item => item.a = 3); // 数组里面的对象属性a的值变成了3
+// （5）reduce数组中的每个元素按序执行一个提供的 reducer 函数，每一次运行 reducer 会将先前元素的计算结果作为参数传入，最后将其结果汇总为单个返回值。
+const total = arr4.reduce((preVal, currentVal) => preVal + currentVal, 0);
 
-
-
-
-
+// （6）Array.from() 静态方法从可迭代或类数组对象创建一个新的浅拷贝的数组实例。
+Array.from({ 0: 'a', 1: 'b' });
+// （2）filter 过滤出来满足条件元素的浅拷贝数组
 
 
 
