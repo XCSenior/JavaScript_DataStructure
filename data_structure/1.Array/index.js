@@ -79,7 +79,16 @@ const total = arr4.reduce((preVal, currentVal) => preVal + currentVal, 0);
 
 // （6）Array.from() 静态方法从可迭代或类数组对象创建一个新的浅拷贝的数组实例。
 Array.from({ 0: 'a', 1: 'b' });
-// （2）filter 过滤出来满足条件元素的浅拷贝数组
+// （7）includes 过滤出来满足条件元素的浅拷贝数组
+[10, 21, 33].includes(1); // false
+
+// （8）搜索方法1：indexOf、lastIndexOf
+// （9）搜索方法2：find、findIndex、findLastIndex
+// （8）
+// （8）
+
+
+
 
 
 
