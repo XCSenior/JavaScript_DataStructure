@@ -31,7 +31,7 @@ class Stack<T> {
     };
 
     // 判断是否为空栈
-    public get isEmpty(): Boolean{
+    public get isEmpty(): boolean{
         return this.items.length === 0;
     };
 
@@ -41,7 +41,7 @@ class Stack<T> {
     };
 
     // 栈的长度
-    public get size(): Number{
+    public get size(): number{
         return this.items.length;
     }
 
