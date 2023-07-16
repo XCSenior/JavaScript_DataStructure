@@ -65,4 +65,28 @@ var Stack = /** @class */ (function () {
     });
     return Stack;
 }());
-var stack = new Stack(1, 2, 3);
+/**
+* 栈结构的应用
+* @param { number } decNumber 被转换的十进制数
+* @returns { string } 转换后的二进制数
+*/
+// 辗转相除法，求十进制转成二进制数字
+var convertBinary = function (decNumber) {
+    var tempStack = new Stack();
+    var tempNumber = decNumber;
+    var convertedString = "";
+    // 辗转相除
+    while (tempNumber > 0) {
+        // 将取余数放入栈中
+        tempStack.push(tempNumber % 2);
+        // 对tempNumber除目标进制数，并向下取整
+        tempNumber = Math.floor(tempNumber / 2);
+    }
+    ;
+    // 获取目标进制的字符串数值
+    while (!tempStack.isEmpty) {
+        convertedString += tempStack.pop();
+    }
+    ;
+    return convertedString;
+};
