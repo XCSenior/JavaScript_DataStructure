@@ -27,6 +27,7 @@ var LinkedList = /** @class */ (function () {
         this.count = 0;
         // 单链表的表头元素
         this.head = null;
+        // 2、（2）指定删除元素值相同的结点
     }
     // 1、插入元素至链尾
     LinkedList.prototype.push = function (data) {
@@ -49,24 +50,35 @@ var LinkedList = /** @class */ (function () {
         ;
     };
     ;
+    // 编写公用方法
+    // 1、获取指定位置的结点
+    LinkedList.prototype.getNodeAt = function (targetIndex) {
+        if (targetIndex >= 0 && targetIndex < this.count) {
+            var currentNode = this.head;
+            // 开始遍历查找目标节点
+            for (var i = 0; i < targetIndex; i++) {
+                currentNode = currentNode.next;
+            }
+            // 循环结束，currentNode就是要被删除的结点
+            return currentNode;
+        }
+    };
+    ;
     // 2、（1）指定索引删除
     LinkedList.prototype.removeAt = function (targetIndex) {
         if (targetIndex >= 0 && targetIndex < this.count) {
-            var currentNode = this.head;
+            var currentNode = void 0;
             if (targetIndex === 0) { // 删除头部元素
                 this.head = this.head.next;
             }
             else {
                 // 开始遍历查找目标节点
-                var previousNode = null;
-                for (var i = 0; i < targetIndex; i++) {
-                    previousNode = currentNode;
-                    currentNode = currentNode.next;
-                }
+                var previousNode = this.getNodeAt(targetIndex - 1);
                 // 循环结束，currentNode就是要被删除的结点
+                currentNode = previousNode.next;
                 previousNode.next = currentNode.next;
             }
-            --this.count;
+            --this.count; // 删除成功后，总数减一
             return currentNode.element;
         }
     };

@@ -49,26 +49,38 @@ class LinkedList<T> {
         };
     };
 
-    // 2、（1）指定索引删除
-    public removeAt(targetIndex: number){
+    // 编写公用方法
+    // 1、获取指定位置的结点
+    public getNodeAt(targetIndex: number): SingleNode<T> | void{
         if (targetIndex >= 0 && targetIndex < this.count) {
             let currentNode: SingleNode<T> = this.head;
+            // 开始遍历查找目标节点
+            for (let i = 0; i < targetIndex; i++) {
+                currentNode = currentNode.next;
+            }
+            // 循环结束，currentNode就是要被删除的结点
+            return currentNode;
+        }
+    };
+    // 2、（1）指定索引删除
+    public removeAt(targetIndex: number): T | void{
+        if (targetIndex >= 0 && targetIndex < this.count) {
+            let currentNode: SingleNode<T>;
             if (targetIndex === 0) { // 删除头部元素
                 this.head = this.head.next;
             } else {
                 // 开始遍历查找目标节点
-                let previousNode: SingleNode<T> = null;
-                for (let i = 0; i < targetIndex; i++) {
-                    previousNode = currentNode;
-                    currentNode = currentNode.next;
-                }
+                const previousNode = <SingleNode<T>>this.getNodeAt(targetIndex - 1);
                 // 循环结束，currentNode就是要被删除的结点
+                currentNode = previousNode.next;
                 previousNode.next = currentNode.next;
             }
-            --this.count;
+            --this.count; // 删除成功后，总数减一
             return currentNode.element;
         }
     };
+    // 2、（2）指定删除元素值相同的结点
+
 }
 
 
