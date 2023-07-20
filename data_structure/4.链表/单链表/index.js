@@ -2,11 +2,12 @@
  * *单链表的基本方法
  * ? 1、push：链表尾增加元素
  * ? 2、remove：两种类型：根据目标索引删除、根据目标元素值删除
- * ? 3、getFront：返回栈顶队头元素
+ * ? 3、insert：指定位置插入data
  *
- * ? 4、isEmpty：判断是否为空队列
- * ? 5、clear：清空队列
- * ? 6、size属性：队列的长度
+ * ? 4、isEmpty：判断是否为空链表
+ * ? 5、clear：清空链表
+ * ? 6、size属性：链表的长度
+ * ? 7、getHead：获取链表头
  */
 /**
  * @class 链表节点
@@ -107,7 +108,6 @@ var LinkedList = /** @class */ (function () {
         if (targetIndex >= 0 && targetIndex <= this.count) {
             var newNode = new SingleNode(data);
             if (targetIndex === 0) {
-                var currentHead = this.head;
                 newNode.next = this.head;
                 this.head = newNode;
             }
@@ -124,6 +124,29 @@ var LinkedList = /** @class */ (function () {
         }
     };
     ;
+    Object.defineProperty(LinkedList.prototype, "isEmpty", {
+        // 5、（4）判断是否为空链表
+        get: function () { return !this.head; },
+        enumerable: false,
+        configurable: true
+    });
+    ;
+    // 6、（5）清空链表
+    LinkedList.prototype.clear = function () {
+        this.head = null;
+        return true;
+    };
+    Object.defineProperty(LinkedList.prototype, "size", {
+        // 7、（6）访问私有属性链表长度
+        get: function () { return this.count; },
+        enumerable: false,
+        configurable: true
+    });
+    ;
+    // 8、（7）获取链表头head
+    LinkedList.prototype.getHead = function () {
+        return this.head;
+    };
     return LinkedList;
 }());
 var linkedList = new LinkedList();

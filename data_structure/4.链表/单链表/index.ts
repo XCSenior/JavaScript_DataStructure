@@ -2,11 +2,12 @@
  * *单链表的基本方法
  * ? 1、push：链表尾增加元素
  * ? 2、remove：两种类型：根据目标索引删除、根据目标元素值删除
- * ? 3、getFront：返回栈顶队头元素
+ * ? 3、insert：指定位置插入data
  *
- * ? 4、isEmpty：判断是否为空队列
- * ? 5、clear：清空队列
- * ? 6、size属性：队列的长度
+ * ? 4、isEmpty：判断是否为空链表
+ * ? 5、clear：清空链表
+ * ? 6、size属性：链表的长度
+ * ? 7、getHead：获取链表头
  */
 
 /**
@@ -26,7 +27,7 @@ class SingleNode<T> {
  */
 class LinkedList<T> {
     // 单链表的长度
-    public count: number = 0;
+    protected count: number = 0;
     // 单链表的表头元素
     public head: SingleNode<T> = null;
 
@@ -93,16 +94,15 @@ class LinkedList<T> {
         }
     };
     // 3、（2）指定删除元素值相同的结点
-    public removeEqual(targetData: T): Boolean{
+    public removeEqual(targetData: T): boolean{
         const targetIndex = this.findIndexOf(targetData);
         return this.removeAt(targetIndex) ? true : false;
     };
     // 4、（3）任意位置上插入元素
-    public insertTo(data: T, targetIndex: number){
+    public insertTo(data: T, targetIndex: number): boolean{
         if (targetIndex >= 0 && targetIndex <= this.count) {
             const newNode = new SingleNode(data);
             if (targetIndex === 0) {
-                const currentHead = this.head;
                 newNode.next = this.head;
                 this.head = newNode;
             } else {
@@ -117,6 +117,21 @@ class LinkedList<T> {
         }
     };
 
+    // 5、（4）判断是否为空链表
+    public get isEmpty(): boolean { return !this.head; };
+
+    // 6、（5）清空链表
+    public clear(): boolean{
+        this.head = null;
+        return true;
+    }
+    // 7、（6）访问私有属性链表长度
+    public get size(): number { return this.count; };
+
+    // 8、（7）获取链表头head
+    public getHead(): SingleNode<T> | null {
+        return this.head;
+    }
 }
 
 
