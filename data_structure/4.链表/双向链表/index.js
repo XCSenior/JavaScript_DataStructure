@@ -10,5 +10,18 @@
  * ? 7、getHead：获取链表头
  */
 /**
- * @class
- */ 
+ * @class DoublyNode1 普通双向链表封装的结点
+ * @property { T } data 结点的数据
+ * @property { DoublyNode1<T> | null } prev 结点的直接前驱
+ * @property { DoublyNode1<T> | null } next 结点的直接后继
+ * @description 正常来说应该继承SingleNode类的，但是由于ts编译后的commonJS模块化格式浏览器不支持（不知道怎么设置编译后成为ESModules），所以还是单独声明此双向链表结点的类
+ */
+var DoublyNode1 = /** @class */ (function () {
+    function DoublyNode1(data) {
+        this.data = data;
+        this.prev = null;
+        this.next = null;
+    }
+    ;
+    return DoublyNode1;
+}());
