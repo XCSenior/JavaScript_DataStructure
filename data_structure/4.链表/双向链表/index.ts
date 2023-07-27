@@ -68,8 +68,9 @@ class DoublyLinkedList<T> {
             this.head = node;
             this.tail = node;
         } else {
-            node.prev = this.tail;
             this.tail.next = node;
+            node.prev = this.tail;
+            // 指针移动到新创建的尾巴结点
             this.tail = node;
         }
         ++this.count;
