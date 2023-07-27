@@ -37,9 +37,9 @@ class DoublyLinkedList<T> {
 
     // 编写公用方法
     // 公用方法1、获取指定位置的结点
-    public getNodeAt(targetIndex: number): SingleNode<T> | void{
+    public getNodeAt(targetIndex: number): DoublyNode1<T> | void{
         if (targetIndex >= 0 && targetIndex < this.count) {
-            let currentNode: SingleNode<T> = this.head;
+            let currentNode: DoublyNode1<T> = this.head;
             // 开始遍历查找目标节点
             for (let i = 0; i < targetIndex; i++) {
                 currentNode = currentNode.next;
@@ -78,12 +78,12 @@ class DoublyLinkedList<T> {
     // 2、（1）指定索引删除
     public removeAt(targetIndex: number): T | void{
         if (targetIndex >= 0 && targetIndex < this.count) {
-            let currentNode: SingleNode<T>;
+            let currentNode: DoublyNode1<T>;
             if (targetIndex === 0) { // 删除头部元素
                 this.head = this.head.next;
             } else {
                 // 开始遍历查找目标节点
-                const previousNode = <SingleNode<T>>this.getNodeAt(targetIndex - 1);
+                const previousNode = <DoublyNode1<T>>this.getNodeAt(targetIndex - 1);
                 // 循环结束，currentNode就是要被删除的结点
                 currentNode = previousNode.next;
                 previousNode.next = currentNode.next;
