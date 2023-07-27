@@ -44,7 +44,6 @@ class DoublyLinkedList<T> {
             for (let i = 0; i < targetIndex; i++) {
                 currentNode = currentNode.next;
             }
-            // 循环结束，currentNode就是要被删除的结点
             return currentNode;
         }
     };
