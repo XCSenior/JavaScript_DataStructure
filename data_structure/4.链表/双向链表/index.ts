@@ -70,6 +70,7 @@ class DoublyLinkedList<T> {
         } else {
             node.prev = this.tail;
             this.tail.next = node;
+            this.tail = node;
         }
         ++this.count;
     };
