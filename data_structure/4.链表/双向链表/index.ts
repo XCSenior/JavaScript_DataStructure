@@ -35,11 +35,6 @@ class DoublyLinkedList<T> {
     public head: DoublyNode1<T> = null;
     public tail: DoublyNode1<T> = null;
 
-    // 1、插入元素至链尾
-    public push(data: T){
-
-    };
-
     // 编写公用方法
     // 公用方法1、获取指定位置的结点
     public getNodeAt(targetIndex: number): SingleNode<T> | void{
@@ -55,7 +50,7 @@ class DoublyLinkedList<T> {
     };
     // 公用方法2、查找目标元素值的结点索引值
     public findIndexOf(targetData: T): number {
-        let currentNode: SingleNode<T> = this.head;
+        let currentNode: DoublyNode1<T> = this.head;
         // 开始遍历查找目标节点
         for (let i = 0; i < this.count; i++) {
             if (currentNode.data === targetData) {
@@ -66,6 +61,18 @@ class DoublyLinkedList<T> {
         }
         return -1;
     }
+    // 1、插入元素至链尾
+    public push(data: T){
+        const node = new DoublyNode1(data);
+        if (this.head === null) {
+            this.head = node;
+            this.tail = node;
+        } else {
+            node.prev = this.tail;
+            this.tail.next = node;
+        }
+        ++this.count;
+    };
     // 2、（1）指定索引删除
     public removeAt(targetIndex: number): T | void{
         if (targetIndex >= 0 && targetIndex < this.count) {
@@ -106,7 +113,11 @@ class DoublyLinkedList<T> {
     public get size(): number { return this.count; };
 
     // 8、（7）获取链表头head
-    public getHead(): DoublyNode1<T> | null {
+    public getHead(): DoublyNode1<T> {
         return this.head;
+    }
+    // 9、返回链表尾
+    public getTail(): DoublyNode1<T> {
+        return this.tail;
     }
 }
