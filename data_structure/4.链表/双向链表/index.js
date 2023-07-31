@@ -34,10 +34,6 @@ var DoublyLinkedList = /** @class */ (function () {
         this.head = null;
         this.tail = null;
     }
-    // 1、插入元素至链尾
-    DoublyLinkedList.prototype.push = function (data) {
-    };
-    ;
     // 编写公用方法
     // 公用方法1、获取指定位置的结点
     DoublyLinkedList.prototype.getNodeAt = function (targetIndex) {
@@ -47,7 +43,6 @@ var DoublyLinkedList = /** @class */ (function () {
             for (var i = 0; i < targetIndex; i++) {
                 currentNode = currentNode.next;
             }
-            // 循环结束，currentNode就是要被删除的结点
             return currentNode;
         }
     };
@@ -66,22 +61,46 @@ var DoublyLinkedList = /** @class */ (function () {
         }
         return -1;
     };
+    // 1、插入元素至链尾
+    DoublyLinkedList.prototype.push = function (data) {
+        var node = new DoublyNode1(data);
+        if (this.head === null) {
+            this.head = node;
+            this.tail = node;
+        }
+        else {
+            this.tail.next = node;
+            node.prev = this.tail;
+            // 指针移动到新创建的尾巴结点
+            this.tail = node;
+        }
+        ++this.count;
+        return true;
+    };
+    ;
     // 2、（1）指定索引删除
     DoublyLinkedList.prototype.removeAt = function (targetIndex) {
         if (targetIndex >= 0 && targetIndex < this.count) {
-            var currentNode = void 0;
-            if (targetIndex === 0) { // 删除头部元素
-                this.head = this.head.next;
+            var deleteTargetNode = void 0;
+            if (targetIndex === 0) {
+                deleteTargetNode = this.head;
+                deleteTargetNode.next.prev = null;
+                this.head = deleteTargetNode.next;
+            }
+            else if (targetIndex === this.count - 1) {
+                deleteTargetNode = this.tail;
+                deleteTargetNode.prev.next = null;
+                this.tail = deleteTargetNode.prev;
             }
             else {
-                // 开始遍历查找目标节点
-                var previousNode = this.getNodeAt(targetIndex - 1);
-                // 循环结束，currentNode就是要被删除的结点
-                currentNode = previousNode.next;
-                previousNode.next = currentNode.next;
+                deleteTargetNode = this.getNodeAt(targetIndex);
+                var prevNode = deleteTargetNode.prev;
+                var nextNode = deleteTargetNode.next;
+                prevNode.next = nextNode;
+                nextNode.prev = prevNode;
             }
-            --this.count; // 删除成功后，总数减一
-            return currentNode.data;
+            --this.count;
+            return deleteTargetNode.data;
         }
     };
     ;
@@ -107,6 +126,7 @@ var DoublyLinkedList = /** @class */ (function () {
     DoublyLinkedList.prototype.clear = function () {
         this.head = null;
         this.tail = null;
+        this.count = 0;
         return true;
     };
     Object.defineProperty(DoublyLinkedList.prototype, "size", {
@@ -120,5 +140,17 @@ var DoublyLinkedList = /** @class */ (function () {
     DoublyLinkedList.prototype.getHead = function () {
         return this.head;
     };
+    // 9、返回链表尾
+    DoublyLinkedList.prototype.getTail = function () {
+        return this.tail;
+    };
     return DoublyLinkedList;
 }());
+var doublyLinkedList = new DoublyLinkedList();
+doublyLinkedList.push(100);
+doublyLinkedList.push(200);
+doublyLinkedList.push(300);
+doublyLinkedList.push(400);
+doublyLinkedList.push(500);
+doublyLinkedList.push(600);
+console.log('doublyLinkedList :>> ', doublyLinkedList);

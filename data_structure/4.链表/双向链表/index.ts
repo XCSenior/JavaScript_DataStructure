@@ -73,22 +73,29 @@ class DoublyLinkedList<T> {
             this.tail = node;
         }
         ++this.count;
+        return true;
     };
     // 2、（1）指定索引删除
     public removeAt(targetIndex: number): T | void{
         if (targetIndex >= 0 && targetIndex < this.count) {
-            let currentNode: DoublyNode1<T>;
-            if (targetIndex === 0) { // 删除头部元素
-                this.head = this.head.next;
+            let deleteTargetNode: DoublyNode1<T>;
+            if (targetIndex === 0) {
+                deleteTargetNode = this.head;
+                deleteTargetNode.next.prev = null;
+                this.head = deleteTargetNode.next;
+            } else if(targetIndex === this.count - 1) {
+                deleteTargetNode = this.tail;
+                deleteTargetNode.prev.next = null;
+                this.tail = deleteTargetNode.prev;
             } else {
-                // 开始遍历查找目标节点
-                const previousNode = <DoublyNode1<T>>this.getNodeAt(targetIndex - 1);
-                // 循环结束，currentNode就是要被删除的结点
-                currentNode = previousNode.next;
-                previousNode.next = currentNode.next;
+                deleteTargetNode = <DoublyNode1<T>>this.getNodeAt(targetIndex);
+                const prevNode = deleteTargetNode.prev;
+                const nextNode = deleteTargetNode.next;
+                prevNode.next = nextNode;
+                nextNode.prev = prevNode;
             }
-            --this.count; // 删除成功后，总数减一
-            return currentNode.data;
+            --this.count;
+            return deleteTargetNode.data;
         }
     };
     // 3、（2）指定删除元素值相同的结点
@@ -108,6 +115,7 @@ class DoublyLinkedList<T> {
     public clear(): boolean{
         this.head = null;
         this.tail = null;
+        this.count = 0;
         return true;
     }
     // 7、（6）访问私有属性链表长度
@@ -122,3 +130,15 @@ class DoublyLinkedList<T> {
         return this.tail;
     }
 }
+
+
+const doublyLinkedList = new DoublyLinkedList();
+
+doublyLinkedList.push(100);
+doublyLinkedList.push(200);
+doublyLinkedList.push(300);
+doublyLinkedList.push(400);
+doublyLinkedList.push(500);
+doublyLinkedList.push(600);
+
+console.log('doublyLinkedList :>> ', doublyLinkedList);
