@@ -111,7 +111,31 @@ var DoublyLinkedList = /** @class */ (function () {
     };
     ;
     // 4、（3）任意位置上插入元素
-    DoublyLinkedList.prototype.insertTo = function (data, targetIndex) {
+    DoublyLinkedList.prototype.insertTo = function (targetIndex, data) {
+        var newNode = new DoublyNode1(data);
+        if (targetIndex >= 0 && targetIndex < this.count) {
+            /* 分头尾的情况 */
+            if (targetIndex === 0) {
+                this.head.prev = newNode;
+                newNode.next = this.head;
+                this.head = newNode;
+            }
+            else if (targetIndex === this.count - 1) {
+                this.tail.next = newNode;
+                newNode.prev = this.tail;
+                this.tail = newNode;
+            }
+            else {
+                var targetNode = this.getNodeAt(targetIndex - 1);
+                var targetNextNode = targetNode.next;
+                targetNode.next = newNode;
+                newNode.prev = targetNextNode;
+                targetNextNode.prev = newNode;
+                newNode.next = targetNextNode;
+            }
+            ++this.count;
+            return true;
+        }
         return false;
     };
     ;
