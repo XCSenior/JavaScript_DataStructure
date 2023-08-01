@@ -106,6 +106,7 @@ var DoublyLinkedList = /** @class */ (function () {
     ;
     // 3、（2）指定删除元素值相同的结点
     DoublyLinkedList.prototype.removeEqual = function (targetData) {
+        /* 实际上还有更加高效地方法 */
         var targetIndex = this.findIndexOf(targetData);
         return this.removeAt(targetIndex) ? true : false;
     };

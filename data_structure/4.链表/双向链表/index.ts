@@ -100,6 +100,7 @@ class DoublyLinkedList<T> {
     };
     // 3、（2）指定删除元素值相同的结点
     public removeEqual(targetData: T): boolean{
+        /* 实际上还有更加高效地方法 */
         const targetIndex = this.findIndexOf(targetData);
         return this.removeAt(targetIndex) ? true : false;
     };
