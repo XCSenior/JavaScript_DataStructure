@@ -80,9 +80,23 @@ class DoublyLinkedList<T> {
         if (targetIndex >= 0 && targetIndex < this.count) {
             let deleteTargetNode: DoublyNode1<T>;
             if (targetIndex === 0) {
-                deleteTargetNode = this.head;
-                deleteTargetNode.next.prev = null;
-                this.head = deleteTargetNode.next;
+                /**
+                 * 应该考虑到
+                 * 1、head为null，即count === 0的情况
+                 * 2、count === 1，即head和tail都是同一个结点的情况
+                 * 3、count > 1 的其他情况
+                 */
+                if (this.count === 0) { // head 为null，不操作
+                    return;
+                } else if (this.count === 1) { // 头尾指向同一个结点
+                    deleteTargetNode = this.head;
+                    this.head = null;
+                    this.tail = null;
+                } else { // count >= 2的时候
+                    deleteTargetNode = this.head;
+                    this.head.next.prev = null;
+                    this.head = this.head.next;
+                }
             } else if(targetIndex === this.count - 1) {
                 deleteTargetNode = this.tail;
                 deleteTargetNode.prev.next = null;
@@ -100,19 +114,24 @@ class DoublyLinkedList<T> {
     };
     // 3、（2）指定删除元素值相同的结点
     public removeEqual(targetData: T): boolean{
-        /* 实际上还有更加高效地方法 */
+        /* 实际上还有更加高效地方法，因为这里变成循环两次，本来循环一次就可以找到删除的目标结点 */
         const targetIndex = this.findIndexOf(targetData);
         return this.removeAt(targetIndex) ? true : false;
     };
     // 4、（3）任意位置上插入元素
     public insertTo(targetIndex: number, data: T): boolean{
-        const newNode = new DoublyNode1(data);
         if (targetIndex >= 0 && targetIndex < this.count) {
+            const newNode = new DoublyNode1(data);
             /* 分头尾的情况 */
             if (targetIndex === 0) {
-                this.head.prev = newNode;
-                newNode.next = this.head;
-                this.head = newNode;
+                if (this.head) {
+                    this.head.prev = newNode;
+                    newNode.next = this.head;
+                    this.head = newNode;
+                } else { // 如果head为null时，相当于重新添加
+                    this.head = newNode;
+                    this.tail = newNode;
+                }
             } else if (targetIndex === this.count - 1){
                 this.tail.next = newNode;
                 newNode.prev = this.tail;
@@ -158,10 +177,10 @@ class DoublyLinkedList<T> {
 const doublyLinkedList = new DoublyLinkedList();
 
 doublyLinkedList.push(100);
-doublyLinkedList.push(200);
-doublyLinkedList.push(300);
-doublyLinkedList.push(400);
-doublyLinkedList.push(500);
-doublyLinkedList.push(600);
+// doublyLinkedList.push(200);
+// doublyLinkedList.push(300);
+// doublyLinkedList.push(400);
+// doublyLinkedList.push(500);
+// doublyLinkedList.push(600);
 
 console.log('doublyLinkedList :>> ', doublyLinkedList);
