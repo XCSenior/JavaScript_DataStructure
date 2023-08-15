@@ -1,5 +1,6 @@
 /**
- * *双向链表的基本属性和方法
+ * *循环链表的基本属性和方法
+ * 循环链表指的是，链表tail结点的next指针指向head结点
  * ? 1、push：链表尾增加元素
  * ? 2、remove：两种类型：根据目标索引删除、根据目标元素值删除
  * ? 3、insert：指定位置插入data
@@ -11,32 +12,31 @@
  * ? 8、getTail：获取链表尾
  */
 /**
- * @class DoublyNode1 普通双向链表封装的结点
+ * @class SingleNode1 普通双向链表封装的结点
  * @property { T } data 结点的数据
- * @property { DoublyNode1<T> | null } prev 结点的直接前驱
- * @property { DoublyNode1<T> | null } next 结点的直接后继
+ * @property { SingleNode1<T> | null } next 结点的直接后继
  * @description 正常来说应该继承SingleNode类的，但是由于ts编译后的commonJS模块化格式浏览器不支持（不知道怎么设置编译后成为ESModules），所以还是单独声明此双向链表结点的类
  */
-var DoublyNode1 = /** @class */ (function () {
-    function DoublyNode1(data) {
+var SingleNode1 = /** @class */ (function () {
+    function SingleNode1(data) {
         this.data = data;
-        this.prev = null;
         this.next = null;
     }
     ;
-    return DoublyNode1;
+    return SingleNode1;
 }());
-var DoublyLinkedList = /** @class */ (function () {
-    function DoublyLinkedList() {
-        // 单链表的长度
+/* 循环链表数据结构 */
+var CircularLinkedList = /** @class */ (function () {
+    function CircularLinkedList() {
+        // 循环链表的长度
         this.count = 0;
-        // 单链表的表头，表尾元素
+        // 循环链表的表头，表尾元素
         this.head = null;
         this.tail = null;
     }
     // 编写公用方法
     // 公用方法1、获取指定位置的结点
-    DoublyLinkedList.prototype.getNodeAt = function (targetIndex) {
+    CircularLinkedList.prototype.getNodeAt = function (targetIndex) {
         if (targetIndex >= 0 && targetIndex < this.count) {
             var currentNode = this.head;
             // 开始遍历查找目标节点
@@ -48,7 +48,7 @@ var DoublyLinkedList = /** @class */ (function () {
     };
     ;
     // 公用方法2、查找目标元素值的结点索引值
-    DoublyLinkedList.prototype.findIndexOf = function (targetData) {
+    CircularLinkedList.prototype.findIndexOf = function (targetData) {
         var currentNode = this.head;
         // 开始遍历查找目标节点
         for (var i = 0; i < this.count; i++) {
@@ -62,58 +62,39 @@ var DoublyLinkedList = /** @class */ (function () {
         return -1;
     };
     // 1、插入元素至链尾
-    DoublyLinkedList.prototype.push = function (data) {
-        var node = new DoublyNode1(data);
+    CircularLinkedList.prototype.push = function (data) {
+        var node = new SingleNode1(data);
         if (this.head === null) {
             this.head = node;
             this.tail = node;
+            this.tail.next = this.head;
         }
         else {
-            this.tail.next = node;
-            node.prev = this.tail;
-            // 指针移动到新创建的尾巴结点
+            node.next = this.head;
             this.tail = node;
         }
         ++this.count;
-        return true;
     };
     ;
     // 2、（1）指定索引删除
-    DoublyLinkedList.prototype.removeAt = function (targetIndex) {
+    CircularLinkedList.prototype.removeAt = function (targetIndex) {
         if (targetIndex >= 0 && targetIndex < this.count) {
             var deleteTargetNode = void 0;
             if (targetIndex === 0) {
-                /**
-                 * 应该考虑到
-                 * 1、head为null，即count === 0的情况
-                 * 2、count === 1，即head和tail都是同一个结点的情况
-                 * 3、count > 1 的其他情况
-                 */
-                if (this.count === 0) { // head 为null，不操作
-                    return;
-                }
-                else if (this.count === 1) { // 头尾指向同一个结点
-                    deleteTargetNode = this.head;
-                    this.head = null;
+                deleteTargetNode = this.head;
+                this.tail.next = deleteTargetNode.next;
+                this.head = deleteTargetNode.next;
+                if (this.count === 1) {
                     this.tail = null;
                 }
-                else { // count >= 2的时候
-                    deleteTargetNode = this.head;
-                    this.head.next.prev = null;
-                    this.head = this.head.next;
-                }
-            }
-            else if (targetIndex === this.count - 1) {
-                deleteTargetNode = this.tail;
-                deleteTargetNode.prev.next = null;
-                this.tail = deleteTargetNode.prev;
             }
             else {
-                deleteTargetNode = this.getNodeAt(targetIndex);
-                var prevNode = deleteTargetNode.prev;
-                var nextNode = deleteTargetNode.next;
-                prevNode.next = nextNode;
-                nextNode.prev = prevNode;
+                var preNode = this.getNodeAt(targetIndex - 1);
+                deleteTargetNode = preNode.next;
+                preNode.next = deleteTargetNode.next;
+                if (targetIndex === this.count - 1) {
+                    this.tail = preNode;
+                }
             }
             --this.count;
             return deleteTargetNode.data;
@@ -121,40 +102,37 @@ var DoublyLinkedList = /** @class */ (function () {
     };
     ;
     // 3、（2）指定删除元素值相同的结点
-    DoublyLinkedList.prototype.removeEqual = function (targetData) {
+    CircularLinkedList.prototype.removeEqual = function (targetData) {
         /* 实际上还有更加高效地方法，因为这里变成循环两次，本来循环一次就可以找到删除的目标结点 */
         var targetIndex = this.findIndexOf(targetData);
         return this.removeAt(targetIndex) ? true : false;
     };
     ;
     // 4、（3）任意位置上插入元素
-    DoublyLinkedList.prototype.insertTo = function (targetIndex, data) {
+    CircularLinkedList.prototype.insertTo = function (targetIndex, data) {
         if (targetIndex >= 0 && targetIndex < this.count) {
-            var newNode = new DoublyNode1(data);
-            /* 分头尾的情况 */
+            var newNode = new SingleNode1(data);
             if (targetIndex === 0) {
                 if (this.head) {
-                    this.head.prev = newNode;
-                    newNode.next = this.head;
+                    newNode.next = this.head.next;
                     this.head = newNode;
+                    this.tail.next = this.head;
                 }
-                else { // 如果head为null时，相当于重新添加
+                else {
                     this.head = newNode;
                     this.tail = newNode;
+                    this.tail.next = this.head;
                 }
             }
             else if (targetIndex === this.count - 1) {
                 this.tail.next = newNode;
-                newNode.prev = this.tail;
+                newNode.next = this.head;
                 this.tail = newNode;
             }
             else {
-                var targetNode = this.getNodeAt(targetIndex - 1);
-                var targetNextNode = targetNode.next;
-                targetNode.next = newNode;
-                newNode.prev = targetNextNode;
-                targetNextNode.prev = newNode;
-                newNode.next = targetNextNode;
+                var preNode = this.getNodeAt(targetIndex - 1);
+                newNode.next = preNode.next;
+                preNode.next = newNode;
             }
             ++this.count;
             return true;
@@ -162,7 +140,7 @@ var DoublyLinkedList = /** @class */ (function () {
         return false;
     };
     ;
-    Object.defineProperty(DoublyLinkedList.prototype, "isEmpty", {
+    Object.defineProperty(CircularLinkedList.prototype, "isEmpty", {
         // 5、（4）判断是否为空链表
         get: function () { return !this.head; },
         enumerable: false,
@@ -170,13 +148,13 @@ var DoublyLinkedList = /** @class */ (function () {
     });
     ;
     // 6、（5）清空链表
-    DoublyLinkedList.prototype.clear = function () {
+    CircularLinkedList.prototype.clear = function () {
         this.head = null;
         this.tail = null;
         this.count = 0;
         return true;
     };
-    Object.defineProperty(DoublyLinkedList.prototype, "size", {
+    Object.defineProperty(CircularLinkedList.prototype, "size", {
         // 7、（6）访问私有属性链表长度
         get: function () { return this.count; },
         enumerable: false,
@@ -184,20 +162,20 @@ var DoublyLinkedList = /** @class */ (function () {
     });
     ;
     // 8、（7）获取链表头head
-    DoublyLinkedList.prototype.getHead = function () {
+    CircularLinkedList.prototype.getHead = function () {
         return this.head;
     };
     // 9、返回链表尾
-    DoublyLinkedList.prototype.getTail = function () {
+    CircularLinkedList.prototype.getTail = function () {
         return this.tail;
     };
-    return DoublyLinkedList;
+    return CircularLinkedList;
 }());
-var doublyLinkedList = new DoublyLinkedList();
-doublyLinkedList.push(100);
-// doublyLinkedList.push(200);
-// doublyLinkedList.push(300);
-// doublyLinkedList.push(400);
-// doublyLinkedList.push(500);
-// doublyLinkedList.push(600);
-console.log('doublyLinkedList :>> ', doublyLinkedList);
+var circularLinkedList = new CircularLinkedList();
+circularLinkedList.push(100);
+// circularLinkedList.push(200);
+// circularLinkedList.push(300);
+// circularLinkedList.push(400);
+// circularLinkedList.push(500);5
+// circularLinkedList.push(600);
+console.log('circularLinkedList :>> ', circularLinkedList);

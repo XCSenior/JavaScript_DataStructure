@@ -64,40 +64,31 @@ class CircularLinkedList<T> {
         if (this.head === null) {
             this.head = node;
             this.tail = node;
+            this.tail.next = this.head;
         } else {
-            this.tail.next = node;
-            // 指针移动到新创建的尾巴结点
+            node.next = this.head;
             this.tail = node;
         }
         ++this.count;
-        return true;
     };
     // 2、（1）指定索引删除
     public removeAt(targetIndex: number): T | void{
         if (targetIndex >= 0 && targetIndex < this.count) {
             let deleteTargetNode: SingleNode1<T>;
             if (targetIndex === 0) {
-                /**
-                 * 应该考虑到
-                 * 1、head为null，即count === 0的情况
-                 * 2、count === 1，即head和tail都是同一个结点的情况
-                 * 3、count > 1 的其他情况
-                 */
-                if (this.count === 0) { // head 为null，不操作
-                    return;
-                } else if (this.count === 1) { // 头尾指向同一个结点
-                    deleteTargetNode = this.head;
-                    this.head = null;
+                deleteTargetNode = this.head;
+                this.tail.next = deleteTargetNode.next;
+                this.head = deleteTargetNode.next;
+                if (this.count === 1) {
                     this.tail = null;
-                } else { // count >= 2的时候
-                    deleteTargetNode = this.head;
-                    this.head = this.head.next;
                 }
-            } else if(targetIndex === this.count - 1) {
-                deleteTargetNode = this.tail;
             } else {
-                deleteTargetNode = <SingleNode1<T>>this.getNodeAt(targetIndex);
-                const nextNode = deleteTargetNode.next;
+                const preNode = <SingleNode1<T>>this.getNodeAt(targetIndex - 1);
+                deleteTargetNode = preNode.next;
+                preNode.next = deleteTargetNode.next;
+                if (targetIndex === this.count - 1) {
+                    this.tail = preNode;
+                }
             }
             --this.count;
             return deleteTargetNode.data;
@@ -113,24 +104,26 @@ class CircularLinkedList<T> {
     public insertTo(targetIndex: number, data: T): boolean{
         if (targetIndex >= 0 && targetIndex < this.count) {
             const newNode = new SingleNode1(data);
-            /* 分头尾的情况 */
             if (targetIndex === 0) {
                 if (this.head) {
-                    newNode.next = this.head;
+                    newNode.next = this.head.next;
                     this.head = newNode;
-                } else { // 如果head为null时，相当于重新添加
+                    this.tail.next = this.head;
+                } else {
                     this.head = newNode;
                     this.tail = newNode;
+                    this.tail.next = this.head;
                 }
-            } else if (targetIndex === this.count - 1){
+            } else if(targetIndex === this.count - 1) {
                 this.tail.next = newNode;
+                newNode.next = this.head;
                 this.tail = newNode;
             } else {
-                const targetNode = <SingleNode1<T>>this.getNodeAt(targetIndex - 1);
-                const targetNextNode = targetNode.next;
-                targetNode.next = newNode;
-                newNode.next = targetNextNode;
+                const preNode = <SingleNode1<T>>this.getNodeAt(targetIndex - 1);
+                newNode.next = preNode.next;
+                preNode.next = newNode;
             }
+
             ++this.count;
             return true;
         }
