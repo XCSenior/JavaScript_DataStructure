@@ -160,8 +160,7 @@ circularLinkedList.push(100);
 // circularLinkedList.push(200);
 // circularLinkedList.push(300);
 // circularLinkedList.push(400);
-// circularLinkedList.push(500);5
+// circularLinkedList.push(500);
 // circularLinkedList.push(600);
 
 console.log('circularLinkedList :>> ', circularLinkedList);
-
