@@ -164,5 +164,3 @@ circularLinkedList.push(100);
 // circularLinkedList.push(600);
 
 console.log('circularLinkedList :>> ', circularLinkedList);
-
-
