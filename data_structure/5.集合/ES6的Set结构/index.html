@@ -7,6 +7,32 @@
 </head>
 <body>
 <script>
+    const mySet = new Set();
+
+    mySet.add(100);
+    mySet.add(200);
+    mySet.add(300);
+
+    console.log('mySet :>> ', mySet);
+
+    // Set对象的values方法，返回可迭代对象
+    const mySetIterator = mySet.values();
+    // mySetIterator.next(); // { "value": 100, "done": false }
+
+    for (const setItem of mySetIterator) {
+        console.log('setItem :>> ', setItem);
+    }
+
+    const mySetA = new Set([1, 2, 3]);
+    const mySetB = new Set([2, 3, 4]);
+
+    // 1、求并集
+    const bingjiSet = new Set([...mySetA, ...mySetB]);
+    // 2、求交集
+    const jiaojiSet = new Set([...mySetA].filter(item => mySetB.has(item)));
+    // 3、A对B求差集
+    const chajiSet = new Set([...mySetA].filter(item => !mySetB.has(item)));
+
 
 </script>
 </body>
