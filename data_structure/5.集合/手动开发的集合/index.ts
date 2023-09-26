@@ -3,28 +3,41 @@
  * 有add、delete、has、clear、size、values所有集合的数值
  */
 
-class mySet<T> {
-    public items: object = {}; // 创建一个对象进行集合的管理
+class MySet {
+    #items: Map<any, any> = new Map(); // 创建一个对象进行集合的管理
     constructor(){};
 
-    public add(): boolean{
-
-        return false;
+    public add(targetVal): boolean{
+        if (this.has(targetVal)) {
+            return false;
+        } else {
+            this.#items.set(targetVal, targetVal);
+            return true;
+        }
     };
-    public delete(): T | void {
-
+    public get(key: any): any {
+        return this.#items.get(key);
     };
-    public has(): boolean {
-
-        return false;
+    public delete(targetVal): boolean {
+        if (this.has(targetVal)) {
+            return this.#items.delete(targetVal);
+        } else {
+            return false;
+        }
+    };
+    public has(targetVal): boolean {
+        return this.#items.has(targetVal);
     };
 
     public clear(): boolean {
-        this.items = {};
+        this.#items.clear();
         return true;
     };
 
     public get size(): number{
-        return Object.keys(this.items).length;
+        return this.#items.size;
     };
 }
+
+const mySet = new MySet();
+
