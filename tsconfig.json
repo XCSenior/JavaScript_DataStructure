@@ -3,5 +3,6 @@
         "allowJs": false,
         "checkJs": false,
         "target": "ESNext",
+        "lib": ["ESNext"]
     }
 }
