@@ -11,7 +11,20 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
 var _Dictionary_instances, _Dictionary_table, _Dictionary_convertKeyToString;
+/* 用来作为存储value的数据类型 */
+var ValuePair = /** @class */ (function () {
+    function ValuePair(key, value) {
+        this.key = key;
+        this.value = value;
+    }
+    return ValuePair;
+}());
 var Dictionary = /** @class */ (function () {
     function Dictionary() {
         _Dictionary_instances.add(this);
@@ -22,10 +35,20 @@ var Dictionary = /** @class */ (function () {
     ;
     ;
     // 1、判断是否有这个键
-    Dictionary.prototype.hasKey = function () { };
+    Dictionary.prototype.hasKey = function (rawKey) {
+        return Boolean(__classPrivateFieldGet(this, _Dictionary_table, "f")[String(__classPrivateFieldGet(this, _Dictionary_instances, "m", _Dictionary_convertKeyToString).call(this, rawKey))]);
+    };
     ;
     // 2、设置键值对方法
-    Dictionary.prototype.set = function () { };
+    Dictionary.prototype.set = function (rawKey, value) {
+        if (rawKey && value) {
+            __classPrivateFieldGet(this, _Dictionary_table, "f")[String(__classPrivateFieldGet(this, _Dictionary_instances, "m", _Dictionary_convertKeyToString).call(this, rawKey))] = new ValuePair(rawKey, value);
+            return true;
+        }
+        else {
+            return false;
+        }
+    };
     ;
     // 3、获取目标键值对的方法
     Dictionary.prototype.get = function () { };
@@ -45,6 +68,9 @@ _Dictionary_table = new WeakMap(), _Dictionary_instances = new WeakSet(), _Dicti
     }
     else if (typeof rawKey === 'string' || rawKey instanceof String) {
         returnStrKey = rawKey;
+    }
+    else {
+        returnStrKey = JSON.stringify(rawKey);
     }
     return returnStrKey;
 };
