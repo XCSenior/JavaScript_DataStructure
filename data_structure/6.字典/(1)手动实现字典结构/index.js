@@ -51,11 +51,28 @@ var Dictionary = /** @class */ (function () {
     };
     ;
     // 3、获取目标键值对的方法
-    Dictionary.prototype.get = function () { };
+    Dictionary.prototype.get = function (rawKey) {
+        return __classPrivateFieldGet(this, _Dictionary_table, "f")[String(__classPrivateFieldGet(this, _Dictionary_instances, "m", _Dictionary_convertKeyToString).call(this, rawKey))];
+    };
     ;
     // 4、移除目标键值对的方法
-    Dictionary.prototype.remove = function () { };
+    Dictionary.prototype.remove = function (rawKey) {
+        return Reflect.deleteProperty(__classPrivateFieldGet(this, _Dictionary_table, "f"), String(__classPrivateFieldGet(this, _Dictionary_instances, "m", _Dictionary_convertKeyToString).call(this, rawKey)));
+    };
     ;
+    // 5、清除对象
+    Dictionary.prototype.clear = function () {
+        __classPrivateFieldSet(this, _Dictionary_table, {}, "f");
+    };
+    ;
+    Object.defineProperty(Dictionary.prototype, "size", {
+        // 6、返回长度
+        get: function () {
+            return Object.entries(__classPrivateFieldGet(this, _Dictionary_table, "f")).length;
+        },
+        enumerable: false,
+        configurable: true
+    });
     return Dictionary;
 }());
 _Dictionary_table = new WeakMap(), _Dictionary_instances = new WeakSet(), _Dictionary_convertKeyToString = function _Dictionary_convertKeyToString(rawKey) {
@@ -75,4 +92,7 @@ _Dictionary_table = new WeakMap(), _Dictionary_instances = new WeakSet(), _Dicti
     return returnStrKey;
 };
 var dictionary = new Dictionary();
+var shabiObj = { "shabi": "obj" };
+dictionary.set("nihaoshabi", "nihaoValue");
+dictionary.set(shabiObj, "shabiObjValue");
 console.log('dictionary :>> ', dictionary);

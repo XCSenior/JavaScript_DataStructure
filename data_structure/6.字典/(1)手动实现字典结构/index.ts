@@ -38,12 +38,12 @@ class Dictionary {
     };
 
     // 1、判断是否有这个键
-    public hasKey(rawKey: any){
+    public hasKey(rawKey: any): boolean{
         return Boolean(this.#table[String(this.#convertKeyToString(rawKey))]);
     };
 
     // 2、设置键值对方法
-    public set(rawKey: any, value: any){
+    public set(rawKey: any, value: any): boolean{
         if(rawKey && value){
             this.#table[String(this.#convertKeyToString(rawKey))] = new ValuePair(rawKey, value);
             return true;
@@ -53,13 +53,32 @@ class Dictionary {
     };
 
     // 3、获取目标键值对的方法
-    public get(){};
+    public get(rawKey: any){
+        return this.#table[String(this.#convertKeyToString(rawKey))];
+    };
 
     // 4、移除目标键值对的方法
-    public remove(){};
+    public remove(rawKey: any): boolean{
+        return Reflect.deleteProperty(this.#table, String(this.#convertKeyToString(rawKey)));
+    };
+
+    // 5、清除对象
+    public clear(){
+        this.#table = {};
+    };
+
+    // 6、返回长度
+    public get size() {
+        return Object.entries(this.#table).length;
+    }
 
 }
 
 const dictionary = new Dictionary();
+
+const shabiObj = { "shabi": "obj" };
+
+dictionary.set("nihaoshabi", "nihaoValue");
+dictionary.set(shabiObj, "shabiObjValue");
 
 console.log('dictionary :>> ', dictionary);
