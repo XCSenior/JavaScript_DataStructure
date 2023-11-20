@@ -36,14 +36,15 @@ var BinarySearchTree = /** @class */ (function () {
     ;
     ;
     // 1、插入方法
-    BinarySearchTree.prototype.insert = function (nodeValue) {
+    BinarySearchTree.prototype.insert = function (insertValue) {
         if (this.root == null) {
-            this.root = new BstTreeNode(nodeValue);
+            this.root = new BstTreeNode(insertValue);
         }
         else {
-            // 递归调用
-            __classPrivateFieldGet(this, _BinarySearchTree_instances, "m", _BinarySearchTree_insertNode).call(this, this.root, nodeValue);
+            // 从根节点开始，递归调用
+            __classPrivateFieldGet(this, _BinarySearchTree_instances, "m", _BinarySearchTree_insertNode).call(this, this.root, insertValue);
         }
+        return this;
     };
     ;
     return BinarySearchTree;
@@ -59,7 +60,28 @@ _BinarySearchTree_instances = new WeakSet(), _BinarySearchTree_compareNodeValue 
             : CompareStatus.Bigger;
     }
     return returnValue;
-}, _BinarySearchTree_insertNode = function _BinarySearchTree_insertNode(treeNode, nodeValue) {
+}, _BinarySearchTree_insertNode = function _BinarySearchTree_insertNode(insertTargetNode, insertValue) {
+    var compareResult = __classPrivateFieldGet(this, _BinarySearchTree_instances, "m", _BinarySearchTree_compareNodeValue).call(this, insertValue, insertTargetNode.nodeValue);
+    if (compareResult === CompareStatus.Less || compareResult === CompareStatus.Equal) {
+        // 插入值小于等于当前结点值，将值插入在当前结点的左子结点中
+        if (insertTargetNode.leftNode == null) {
+            // 递归结束条件
+            insertTargetNode.leftNode = new BstTreeNode(insertValue);
+        }
+        else {
+            __classPrivateFieldGet(this, _BinarySearchTree_instances, "m", _BinarySearchTree_insertNode).call(this, insertTargetNode.leftNode, insertValue);
+        }
+    }
+    else {
+        // 插入值大于当前结点值，将值插入在当前结点的右子结点中
+        if (insertTargetNode.rightNode == null) {
+            // 递归结束条件
+            insertTargetNode.rightNode = new BstTreeNode(insertValue);
+        }
+        else {
+            __classPrivateFieldGet(this, _BinarySearchTree_instances, "m", _BinarySearchTree_insertNode).call(this, insertTargetNode.rightNode, insertValue);
+        }
+    }
 };
 var myBstTree = new BinarySearchTree();
 myBstTree.insert(100);

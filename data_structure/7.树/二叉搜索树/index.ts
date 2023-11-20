@@ -42,18 +42,36 @@ class BinarySearchTree<T>{
         return returnValue;
     };
     // 类私有方法，递归调用插入值
-    #insertNode<T>(treeNode: BstTreeNode<T>, nodeValue: T){
-
+    #insertNode(insertTargetNode: BstTreeNode<T>, insertValue: T){
+        const compareResult: CompareStatus = this.#compareNodeValue(insertValue, insertTargetNode.nodeValue);
+        if (compareResult === CompareStatus.Less || compareResult === CompareStatus.Equal) {
+            // 插入值小于等于当前结点值，将值插入在当前结点的左子结点中
+            if (insertTargetNode.leftNode == null) {
+                // 递归结束条件
+                insertTargetNode.leftNode = new BstTreeNode(insertValue);
+            } else {
+                this.#insertNode(insertTargetNode.leftNode, insertValue);
+            }
+        } else {
+            // 插入值大于当前结点值，将值插入在当前结点的右子结点中
+            if (insertTargetNode.rightNode == null) {
+                // 递归结束条件
+                insertTargetNode.rightNode = new BstTreeNode(insertValue);
+            } else {
+                this.#insertNode(insertTargetNode.rightNode, insertValue);
+            }
+        }
     };
 
     // 1、插入方法
-    public insert(nodeValue: T){
+    public insert(insertValue: T): BinarySearchTree<T>{
         if (this.root == null) {
-            this.root = new BstTreeNode(nodeValue);
+            this.root = new BstTreeNode(insertValue);
         } else {
-            // 递归调用
-            this.#insertNode(this.root, nodeValue);
+            // 从根节点开始，递归调用
+            this.#insertNode(this.root, insertValue);
         }
+        return this;
     };
 }
 
