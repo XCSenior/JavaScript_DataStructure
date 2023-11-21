@@ -65,6 +65,33 @@ var BinarySearchTree = /** @class */ (function () {
         __classPrivateFieldGet(this, _BinarySearchTree_instances, "m", _BinarySearchTree_postOrderMapNode).call(this, this.root, callback);
     };
     ;
+    /* 5、查询
+      利用二叉搜索树左边小，右边大的特性，来进行查询
+    */
+    /**
+     * getMinimum获取BST树最小值
+     */
+    BinarySearchTree.prototype.getMinimum = function () {
+        // 寻找最左边（最小）结点指针
+        var minNode = this.root;
+        while (minNode && minNode.leftNode != null) {
+            minNode = minNode.leftNode;
+        }
+        return minNode;
+    };
+    ;
+    /**
+     * getMaximum获取BST树最大值
+     */
+    BinarySearchTree.prototype.getMaximum = function () {
+        // 寻找最右边（最大）结点指针
+        var maxNode = this.root;
+        while (maxNode && maxNode.rightNode != null) {
+            maxNode = maxNode.rightNode;
+        }
+        return maxNode;
+    };
+    ;
     return BinarySearchTree;
 }());
 _BinarySearchTree_instances = new WeakSet(), _BinarySearchTree_compareNodeValue = function _BinarySearchTree_compareNodeValue(val1, val2) {

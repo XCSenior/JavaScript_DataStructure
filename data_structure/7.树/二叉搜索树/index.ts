@@ -122,6 +122,34 @@ class BinarySearchTree<T>{
         // 开始启动先序遍历
         this.#postOrderMapNode(this.root, callback);
     };
+
+    /* 5、查询
+      利用二叉搜索树左边小，右边大的特性，来进行查询
+    */
+    /**
+     * getMinimum获取BST树最小值
+     */
+    public getMinimum(): BstTreeNode<T> {
+        // 寻找最左边（最小）结点指针
+        let minNode: BstTreeNode<T> = this.root;
+        while (minNode && minNode.leftNode != null) {
+            minNode = minNode.leftNode;
+        }
+        return minNode;
+    };
+    /**
+     * getMaximum获取BST树最大值
+     */
+    public getMaximum(): BstTreeNode<T> {
+        // 寻找最右边（最大）结点指针
+        let maxNode: BstTreeNode<T> = this.root;
+        while (maxNode && maxNode.rightNode != null) {
+            maxNode = maxNode.rightNode;
+        }
+        return maxNode;
+    };
+
+
 }
 
 const myBstTree = new BinarySearchTree(11);
