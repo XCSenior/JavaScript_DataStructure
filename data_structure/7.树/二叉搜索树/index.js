@@ -8,7 +8,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var _BinarySearchTree_instances, _BinarySearchTree_compareNodeValue, _BinarySearchTree_insertNode;
+var _BinarySearchTree_instances, _BinarySearchTree_compareNodeValue, _BinarySearchTree_insertNode, _BinarySearchTree_inOrderMapNode, _BinarySearchTree_preOrderMapNode, _BinarySearchTree_postOrderMapNode;
 var CompareStatus;
 (function (CompareStatus) {
     CompareStatus[CompareStatus["Less"] = -1] = "Less";
@@ -27,10 +27,10 @@ var BstTreeNode = /** @class */ (function () {
     return BstTreeNode;
 }());
 var BinarySearchTree = /** @class */ (function () {
-    function BinarySearchTree() {
+    function BinarySearchTree(rootNodeValue) {
         _BinarySearchTree_instances.add(this);
         // 万丈高楼平地起
-        this.root = null;
+        this.root = new BstTreeNode(rootNodeValue);
     }
     ;
     ;
@@ -45,6 +45,24 @@ var BinarySearchTree = /** @class */ (function () {
             __classPrivateFieldGet(this, _BinarySearchTree_instances, "m", _BinarySearchTree_insertNode).call(this, this.root, insertValue);
         }
         return this;
+    };
+    ;
+    ;
+    BinarySearchTree.prototype.inOrderTraversal = function (callback) {
+        // 开始启动中序遍历
+        __classPrivateFieldGet(this, _BinarySearchTree_instances, "m", _BinarySearchTree_inOrderMapNode).call(this, this.root, callback);
+    };
+    ;
+    ;
+    BinarySearchTree.prototype.preOrderTraversal = function (callback) {
+        // 开始启动先序遍历
+        __classPrivateFieldGet(this, _BinarySearchTree_instances, "m", _BinarySearchTree_preOrderMapNode).call(this, this.root, callback);
+    };
+    ;
+    ;
+    BinarySearchTree.prototype.postOrderTraversal = function (callback) {
+        // 开始启动先序遍历
+        __classPrivateFieldGet(this, _BinarySearchTree_instances, "m", _BinarySearchTree_postOrderMapNode).call(this, this.root, callback);
     };
     ;
     return BinarySearchTree;
@@ -82,7 +100,38 @@ _BinarySearchTree_instances = new WeakSet(), _BinarySearchTree_compareNodeValue 
             __classPrivateFieldGet(this, _BinarySearchTree_instances, "m", _BinarySearchTree_insertNode).call(this, insertTargetNode.rightNode, insertValue);
         }
     }
+}, _BinarySearchTree_inOrderMapNode = function _BinarySearchTree_inOrderMapNode(treeNode, callback) {
+    if (treeNode != null) {
+        __classPrivateFieldGet(this, _BinarySearchTree_instances, "m", _BinarySearchTree_inOrderMapNode).call(this, treeNode.leftNode, callback);
+        callback(treeNode.nodeValue); // 先打印左子节点，再打印父节点，后打印右子节点
+        __classPrivateFieldGet(this, _BinarySearchTree_instances, "m", _BinarySearchTree_inOrderMapNode).call(this, treeNode.rightNode, callback);
+    }
+}, _BinarySearchTree_preOrderMapNode = function _BinarySearchTree_preOrderMapNode(treeNode, callback) {
+    if (treeNode != null) {
+        callback(treeNode.nodeValue); // 先打印父节点，再打印左节点，再打印右节点
+        __classPrivateFieldGet(this, _BinarySearchTree_instances, "m", _BinarySearchTree_preOrderMapNode).call(this, treeNode.leftNode, callback);
+        __classPrivateFieldGet(this, _BinarySearchTree_instances, "m", _BinarySearchTree_preOrderMapNode).call(this, treeNode.rightNode, callback);
+    }
+}, _BinarySearchTree_postOrderMapNode = function _BinarySearchTree_postOrderMapNode(treeNode, callback) {
+    if (treeNode != null) {
+        __classPrivateFieldGet(this, _BinarySearchTree_instances, "m", _BinarySearchTree_postOrderMapNode).call(this, treeNode.leftNode, callback);
+        __classPrivateFieldGet(this, _BinarySearchTree_instances, "m", _BinarySearchTree_postOrderMapNode).call(this, treeNode.rightNode, callback);
+        callback(treeNode.nodeValue); // 先打印左节点，再打印右节点，最后打印父节点
+    }
 };
-var myBstTree = new BinarySearchTree();
-myBstTree.insert(100);
+var myBstTree = new BinarySearchTree(11);
+myBstTree.insert(7);
+myBstTree.insert(5);
+myBstTree.insert(6);
+myBstTree.insert(3);
+myBstTree.insert(9);
+myBstTree.insert(8);
+myBstTree.insert(10);
+myBstTree.insert(15);
+myBstTree.insert(13);
+myBstTree.insert(12);
+myBstTree.insert(14);
+myBstTree.insert(20);
+myBstTree.insert(18);
+myBstTree.insert(25);
 console.log('myBstTree :>> ', myBstTree);

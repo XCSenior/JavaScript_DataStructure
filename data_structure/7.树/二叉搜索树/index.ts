@@ -25,9 +25,9 @@ class BstTreeNode<T> {
 
 class BinarySearchTree<T>{
     root: BstTreeNode<T>;
-    constructor() {
+    constructor(rootNodeValue: T) {
         // 万丈高楼平地起
-        this.root = null;
+        this.root = new BstTreeNode(rootNodeValue);
     };
     // 类私有方法，比较树结点值大小
     #compareNodeValue(val1: T, val2: T): CompareStatus{
@@ -73,11 +73,76 @@ class BinarySearchTree<T>{
         }
         return this;
     };
+
+    // 遍历：
+    /**
+     * 2、中序遍历
+     * 类函数：中序遍历递归
+     */
+    #inOrderMapNode(treeNode: BstTreeNode<T>, callback: (currNodeValue: T) => void){
+        if (treeNode != null) {
+            this.#inOrderMapNode(treeNode.leftNode, callback);
+            callback(treeNode.nodeValue); // 先打印左子节点，再打印父节点，后打印右子节点
+            this.#inOrderMapNode(treeNode.rightNode, callback);
+        }
+    };
+    public inOrderTraversal(callback: (currNodeValue: T) => void) {
+        // 开始启动中序遍历
+        this.#inOrderMapNode(this.root, callback);
+    };
+
+    /**
+     * 3、先序遍历
+     * 类函数：先序遍历递归
+     */
+    #preOrderMapNode(treeNode: BstTreeNode<T>, callback: (currNodeValue: T) => void){
+        if (treeNode != null) {
+            callback(treeNode.nodeValue); // 先打印父节点，再打印左节点，再打印右节点
+            this.#preOrderMapNode(treeNode.leftNode, callback);
+            this.#preOrderMapNode(treeNode.rightNode, callback);
+        }
+    };
+    public preOrderTraversal(callback: (currNodeValue: T) => void) {
+        // 开始启动先序遍历
+        this.#preOrderMapNode(this.root, callback);
+    };
+
+    /**
+     * 4、后序遍历
+     * 类函数：后序遍历递归
+     */
+    #postOrderMapNode(treeNode: BstTreeNode<T>, callback: (currNodeValue: T) => void){
+        if (treeNode != null) {
+            this.#postOrderMapNode(treeNode.leftNode, callback);
+            this.#postOrderMapNode(treeNode.rightNode, callback);
+            callback(treeNode.nodeValue); // 先打印左节点，再打印右节点，最后打印父节点
+        }
+    };
+    public postOrderTraversal(callback: (currNodeValue: T) => void) {
+        // 开始启动先序遍历
+        this.#postOrderMapNode(this.root, callback);
+    };
 }
 
-const myBstTree = new BinarySearchTree();
+const myBstTree = new BinarySearchTree(11);
 
-myBstTree.insert(100);
+myBstTree.insert(7);
+myBstTree.insert(5);
+myBstTree.insert(6);
+myBstTree.insert(3);
+myBstTree.insert(9);
+myBstTree.insert(8);
+myBstTree.insert(10);
+
+myBstTree.insert(15);
+myBstTree.insert(13);
+myBstTree.insert(12);
+myBstTree.insert(14);
+myBstTree.insert(20);
+myBstTree.insert(18);
+myBstTree.insert(25);
+
+
 
 
 console.log('myBstTree :>> ', myBstTree);
